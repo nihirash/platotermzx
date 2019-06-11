@@ -28,28 +28,25 @@ void connect(void)
 #ifdef __UNO__
 #include "uno/zifi.h"
 #include <conio.h>
-#include <spectrum.h>
+#include <stdio.h>
 #include <string.h>
+#include "protocol.h"
 
 void connect() 
 {
   char host[32];
+  char buff[80];
 
-  help_clear();
-  help_prompt_input("Enter Hostname or <ENTER> for IRATA.ONLINE: ");
-  cgets(host);
-  if (strcmp(host,"")==0)
-    {
-      strcpy(host, "IRATA.ONLINE");
-    }
-  help_clear();
+  strcpy(host, "IRATA.ONLINE");
 
   initWifi();
   if (openTcp(&host, "8005")) {
-    cprintf("Connected to host %s", &host);
+    sprintf(&buff, "Connected to host %s", &host);
+    ShowPLATO(&buff, strlen(buff));
     is_connected = 1;
   } else {
-    cprintf("Failed to connect to host %s  ", &host);
+    sprintf(&buff, "Failed to connect to host %s  ", &host);
+    ShowPLATO(&buff, strlen(buff));
     for (;;);
   }
 

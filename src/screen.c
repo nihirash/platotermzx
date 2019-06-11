@@ -20,6 +20,10 @@ long foregroundColor=INK_WHITE;
 long backgroundColor=PAPER_BLACK;
 #endif
 
+#ifdef __UNO__
+#include <ts2068.h>
+#endif
+
 extern padBool FastText; /* protocol.c */
 extern unsigned short scalex[];
 extern unsigned short scaley[];
@@ -62,7 +66,6 @@ void screen_init(void)
   int mode = 1;
   console_ioctl(IOCTL_GENCON_SET_MODE,&mode);
 #endif
-  clg();
 }
 
 /**
@@ -506,7 +509,9 @@ void screen_background(padRGB* theColor)
  */
 void screen_paint(padPt* Coord)
 {
-  fill(scalex[Coord->x],scaley[Coord->y]);
+  #ifndef __UNO__
+    fill(scalex[Coord->x],scaley[Coord->y]);
+  #endif
 }
 
 /**
